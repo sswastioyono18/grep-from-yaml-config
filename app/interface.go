@@ -6,5 +6,5 @@ type IGrep interface {
 }
 
 type IGetContent interface {
-	GetContent(app string) (yamlData map[string]interface{})
+	GetContent(app string)
 }
