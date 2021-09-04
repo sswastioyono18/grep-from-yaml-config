@@ -16,7 +16,6 @@ func main() {
 	yfile, err := ioutil.ReadFile(dir+"/.infra/helm/dev/config.yaml")
 
 	if err != nil {
-
 		log.Fatal(err)
 	}
 
