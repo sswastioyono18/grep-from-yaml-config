@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"github.com/spf13/cobra"
@@ -18,3 +18,6 @@ var consumerCmd = &cobra.Command{
 	},
 }
 
+func init() {
+	rootCmd.AddCommand(consumerCmd)
+}
