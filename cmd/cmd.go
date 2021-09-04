@@ -24,6 +24,7 @@ func NewYamlContent() *app.YamlContent {
 		FileTarget: viper.GetString("FILE_TARGET"),
 		TracePath: viper.GetStringSlice("YAML_TRACE_PATH"),
 		Project: app.Project{
+			GrepDirSource: viper.GetString("GREP_DIR_SOURCE"),
 			GrepDirTarget: viper.GetString("GREP_DIR_TARGET"),
 			AppTarget:     viper.GetStringSlice("APP_TARGET"),
 			RootPath:      viper.GetString("ROOT_PATH"),

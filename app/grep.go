@@ -18,6 +18,7 @@ type YamlContent struct {
 
 type Project struct {
 	AppTarget     []string
+	GrepDirSource string
 	GrepDirTarget string
 	RootPath      string
 }
@@ -44,7 +45,8 @@ func (y *YamlContent) GetContent(app string) (yamlData map[string]interface{}) {
 }
 
 func (y *YamlContent) Grep(key, app string) {
-	grep := exec.Command("grep", "-r", key, path.Join(y.Project.RootPath, app, "internal"))
+	searchPath := path.Join(y.Project.RootPath, app, y.Project.GrepDirTarget)
+	grep := exec.Command("grep", "-r", key, searchPath)
 
 	// Run and get the output of grep.
 	res, _ := grep.Output()
