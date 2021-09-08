@@ -20,5 +20,9 @@ To find key not used in yaml secret
 ```
 
 ## TODO
-Complexity seems high for grep from config yaml since we are looping from list of app, then list of target yaml, then list of yaml and then grep content of go file.
-
+- Complexity seems high for grep from config yaml since we are looping 
+    - from list of app 
+    - then list of target yaml
+    - then list of yaml 
+    - then grep content of go file.
+- Unit testing
