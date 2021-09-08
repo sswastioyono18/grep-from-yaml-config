@@ -54,10 +54,16 @@ func (y *YamlContent) GetContent(app string) () {
 		}
 
 		used := true
+		allUsed := true
 		for key, _ := range yamlData {
 			used = y.Grep(key, app)
+			if used != true {
+				allUsed = false
+			}
 		}
-		if used {
+
+		fmt.Println("used: ", used)
+		if allUsed {
 			zapLogger.Logger.Info(fmt.Sprintf("😊 All keys are used in this file: %s", filePath))
 		}
 	}
@@ -82,7 +88,7 @@ func (y *YamlContent) Grep(key, app string) (used bool){
 
 	if used == false {
 		zapLogger.Logger.Info(fmt.Sprintf("😞 This key is not used: %s", key))
-		return
+		return used
 	}
 
 	return
