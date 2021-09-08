@@ -65,7 +65,7 @@ func initConfig() {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		viper.SetConfigName(".env")
+		viper.SetConfigFile(".env")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

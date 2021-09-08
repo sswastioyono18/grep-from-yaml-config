@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/sswastioyono18/grep-from-yaml-config/app"
+	"github.com/sswastioyono18/grep-from-yaml-config/log"
 )
 
 var cleanYamlConfigCmd = &cobra.Command{
@@ -11,6 +12,7 @@ var cleanYamlConfigCmd = &cobra.Command{
 	Short: "grep from yaml and check if key is used or not in project",
 	Args:  cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
+		log.NewLogger()
 		app.StartGrepFromFile(&app.YamlContent{
 			TracePath: viper.GetStringSlice("CONFIG_YAML_TRACE_PATH"),
 			Project: app.Project{
@@ -28,6 +30,7 @@ var cleanYamlSecretCmd = &cobra.Command{
 	Short: "grep from yaml and check if key is used or not in project",
 	Args:  cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
+		log.NewLogger()
 		app.StartGrepFromFile(&app.YamlContent{
 			TracePath: viper.GetStringSlice("SECRET_YAML_TRACE_PATH"),
 			Project: app.Project{

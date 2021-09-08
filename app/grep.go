@@ -1,15 +1,17 @@
 package app
 
 import (
-	"fmt"
+	"bytes"
 	"github.com/spf13/viper"
+	zapLogger "github.com/sswastioyono18/grep-from-yaml-config/log"
+	"go.uber.org/zap"
 	"gopkg.in/yaml.v3"
 	"io/ioutil"
-	"log"
 	"os"
 	"os/exec"
 	"path"
 	"path/filepath"
+	"strings"
 )
 
 type YamlContent struct {
@@ -26,18 +28,24 @@ type Project struct {
 
 func (y *YamlContent) GetContent(app string) () {
 	for _, filePath := range y.Project.GrepDirSource {
-		fmt.Println("getting key from this file ", filePath)
+		zapLogger.Logger.Info("Getting key from this file ", zap.String("filePath", filePath))
 		yamlFile, err := ioutil.ReadFile(path.Join(y.Project.RootPath, app, filePath))
 
 		if err != nil {
-			log.Fatal(err)
+			zapLogger.Logger.Fatal("Error", zap.Error(err))
+		}
+
+		if !strings.Contains("secret", filePath) {
+			// to remove line break in yaml config
+			zapLogger.Logger.Info("Removing line break from this file ", zap.String("filePath", filePath))
+			yamlFile = bytes.Replace(yamlFile, []byte("|-"), []byte(""), -1)
 		}
 
 		yamlData := make(map[string]interface{})
 		err2 := yaml.Unmarshal(yamlFile, &yamlData)
 
 		if err2 != nil {
-			log.Fatal(err2)
+			zapLogger.Logger.Fatal("Error", zap.Error(err2))
 		}
 
 		for _, v := range y.TracePath {
@@ -62,14 +70,13 @@ func (y *YamlContent) Grep(key, app string) {
 		// Run and get the output of grep.
 		res, _ := grep.Output()
 		if string(res) != "" {
-			//fmt.Println(fmt.Sprintf("%s %s %s", key, "used in : ", fileName))
 			used = true
 			return
 		}
 	}
 
 	if used == false {
-		fmt.Println("This key is not used:", key)
+		zapLogger.Logger.Info("This key is not used:", zap.String("key", key))
 	}
 }
 
@@ -98,7 +105,7 @@ func WalkMatch(root, pattern string) ([]string, error) {
 func StartGrepFromFile(grepper IGrep) {
 		appList := viper.GetStringSlice("APP_TARGET")
 		for _, app := range appList {
-			log.Println(" scanning folder: ", app)
+			zapLogger.Logger.Info("scanning folder: ", zap.String("app", app))
 			grepper.GetContent(app)
 		}
 }
