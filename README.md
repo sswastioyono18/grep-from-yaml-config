@@ -19,6 +19,11 @@ To find key not used in yaml secret
 ./grep-from-yaml-config clean-yaml-secret 
 ```
 
+if you want to use your own config .env file, you can specify
+```
+--config test-config.env
+```
+
 ## TODO
 - Complexity seems high for grep from config yaml since we are looping 
     - from list of app 
@@ -26,3 +31,4 @@ To find key not used in yaml secret
     - then list of yaml 
     - then grep content of go file.
 - Unit testing
+- Implement same functionality for .env & toml file

@@ -2,7 +2,7 @@ package app
 
 type IGrep interface {
 	IGetContent
-	Grep(key , app string)
+	Grep(key , app string) bool
 }
 
 type IGetContent interface {

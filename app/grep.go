@@ -29,7 +29,7 @@ type Project struct {
 
 func (y *YamlContent) GetContent(app string) () {
 	for _, filePath := range y.Project.GrepDirSource {
-		zapLogger.Logger.Info(fmt.Sprintf("Getting list of key from this file %s", filePath))
+		zapLogger.Logger.Info(fmt.Sprintf("Getting list of key from this file: %s \n", filePath))
 		yamlFile, err := ioutil.ReadFile(path.Join(y.Project.RootPath, app, filePath))
 
 		if err != nil {
@@ -38,7 +38,7 @@ func (y *YamlContent) GetContent(app string) () {
 
 		if !strings.Contains("secret", filePath) {
 			// to remove line break in yaml config
-			zapLogger.Logger.Info(fmt.Sprintf("Removing line break from this file %s", filePath))
+			zapLogger.Logger.Info(fmt.Sprintf("Removing line break from this file: %s", filePath))
 			yamlFile = bytes.Replace(yamlFile, []byte("|-"), []byte(""), -1)
 		}
 
@@ -53,14 +53,18 @@ func (y *YamlContent) GetContent(app string) () {
 			yamlData = yamlData[v].(map[string]interface{})
 		}
 
+		used := true
 		for key, _ := range yamlData {
-			y.Grep(key, app)
+			used = y.Grep(key, app)
+		}
+		if used {
+			zapLogger.Logger.Info(fmt.Sprintf("😊 All keys are used in this file: %s", filePath))
 		}
 	}
 }
 
-func (y *YamlContent) Grep(key, app string) {
-	used := false
+func (y *YamlContent) Grep(key, app string) (used bool){
+	used = false
 	files, err := WalkMatch(filepath.Join(viper.GetString("ROOT_PATH"),app), "*.go")
 	if err != nil {
 		return
@@ -78,7 +82,10 @@ func (y *YamlContent) Grep(key, app string) {
 
 	if used == false {
 		zapLogger.Logger.Info(fmt.Sprintf("😞 This key is not used: %s", key))
+		return
 	}
+
+	return
 }
 
 func WalkMatch(root, pattern string) ([]string, error) {

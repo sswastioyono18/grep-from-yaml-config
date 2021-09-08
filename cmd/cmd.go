@@ -13,6 +13,7 @@ var cleanYamlConfigCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		log.NewLogger()
+		log.Logger.Info("Starting clean-yaml-config")
 		app.StartGrepFromFile(&app.YamlContent{
 			TracePath: viper.GetStringSlice("CONFIG_YAML_TRACE_PATH"),
 			Project: app.Project{
@@ -31,6 +32,7 @@ var cleanYamlSecretCmd = &cobra.Command{
 	Args:  cobra.MinimumNArgs(0),
 	Run: func(cmd *cobra.Command, args []string) {
 		log.NewLogger()
+		log.Logger.Info("Starting clean-yaml-secret")
 		app.StartGrepFromFile(&app.YamlContent{
 			TracePath: viper.GetStringSlice("SECRET_YAML_TRACE_PATH"),
 			Project: app.Project{
