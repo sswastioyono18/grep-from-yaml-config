@@ -29,7 +29,8 @@ type Project struct {
 
 func (y *YamlContent) GetContent(app string) () {
 	for _, filePath := range y.Project.GrepDirSource {
-		zapLogger.Logger.Info(fmt.Sprintf("Getting list of key from this file: %s \n", filePath))
+		zapLogger.Logger.Info(fmt.Sprintf("-----------------------------------------"))
+		zapLogger.Logger.Info(fmt.Sprintf("Getting list of key from this file: %s", filePath))
 		yamlFile, err := ioutil.ReadFile(path.Join(y.Project.RootPath, app, filePath))
 
 		if err != nil {
@@ -86,7 +87,7 @@ func (y *YamlContent) Grep(key, app string) (used bool){
 	}
 
 	if used == false {
-		zapLogger.Logger.Info(fmt.Sprintf("😞 This key is not used: %s", key))
+		zapLogger.Logger.Info(fmt.Sprintf("😞 This key is not used: %s . Please remove it!!", key))
 		return used
 	}
 
