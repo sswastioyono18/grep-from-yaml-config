@@ -2,6 +2,7 @@ package app
 
 import (
 	"bytes"
+	"fmt"
 	"github.com/spf13/viper"
 	zapLogger "github.com/sswastioyono18/grep-from-yaml-config/log"
 	"go.uber.org/zap"
@@ -28,7 +29,7 @@ type Project struct {
 
 func (y *YamlContent) GetContent(app string) () {
 	for _, filePath := range y.Project.GrepDirSource {
-		zapLogger.Logger.Info("Getting key from this file ", zap.String("filePath", filePath))
+		zapLogger.Logger.Info(fmt.Sprintf("Getting list of key from this file %s", filePath))
 		yamlFile, err := ioutil.ReadFile(path.Join(y.Project.RootPath, app, filePath))
 
 		if err != nil {
@@ -37,7 +38,7 @@ func (y *YamlContent) GetContent(app string) () {
 
 		if !strings.Contains("secret", filePath) {
 			// to remove line break in yaml config
-			zapLogger.Logger.Info("Removing line break from this file ", zap.String("filePath", filePath))
+			zapLogger.Logger.Info(fmt.Sprintf("Removing line break from this file %s", filePath))
 			yamlFile = bytes.Replace(yamlFile, []byte("|-"), []byte(""), -1)
 		}
 
@@ -76,7 +77,7 @@ func (y *YamlContent) Grep(key, app string) {
 	}
 
 	if used == false {
-		zapLogger.Logger.Info("This key is not used:", zap.String("key", key))
+		zapLogger.Logger.Info(fmt.Sprintf("😞 This key is not used: %s", key))
 	}
 }
 
@@ -105,7 +106,7 @@ func WalkMatch(root, pattern string) ([]string, error) {
 func StartGrepFromFile(grepper IGrep) {
 		appList := viper.GetStringSlice("APP_TARGET")
 		for _, app := range appList {
-			zapLogger.Logger.Info("scanning folder: ", zap.String("app", app))
+			zapLogger.Logger.Info(fmt.Sprintf("👀 Scanning folder: %s", app))
 			grepper.GetContent(app)
 		}
 }
