@@ -62,7 +62,6 @@ func (y *YamlContent) GetContent(app string) () {
 			}
 		}
 
-		fmt.Println("used: ", used)
 		if allUsed {
 			zapLogger.Logger.Info(fmt.Sprintf("😊 All keys are used in this file: %s", filePath))
 		}
