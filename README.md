@@ -24,7 +24,8 @@ if you want to use your own config .env file, you can specify
 --config test-config.env
 ```
 ## Screenshot
-![Screen Shot 2021-09-08 at 13 15 53](https://user-images.githubusercontent.com/11158339/132456284-7e242bed-8388-4415-97c5-fa0d8f9abab3.png)
+![Screen Shot 2021-09-08 at 13 58 18](https://user-images.githubusercontent.com/11158339/132461428-64109a5d-87aa-49f7-8cbf-8628c93be5d2.png)
+
 
 
 ## TODO
